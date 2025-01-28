@@ -6,6 +6,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardList = document.getElementById('card-list');
     let username = '';
 
+    // Función para cargar las tarjetas desde localStorage
+    function loadCards() {
+        const cards = JSON.parse(localStorage.getItem('cards')) || [];
+        cardList.innerHTML = '';
+        cards.forEach((card) => {
+            const li = document.createElement('li');
+            li.textContent = `${card.username}: ${card.situation}`;
+            cardList.appendChild(li);
+        });
+    }
+
+    // Función para guardar las tarjetas en localStorage
+    function saveCards(cards) {
+        localStorage.setItem('cards', JSON.stringify(cards));
+        loadCards();
+    }
+
     registerForm.addEventListener('submit', (e) => {
         e.preventDefault();
         username = document.getElementById('username').value;
@@ -17,43 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
     cardForm.addEventListener('submit', (e) => {
         e.preventDefault();
         const situation = document.getElementById('situation').value;
-        createCard(situation);
-        document.getElementById('situation').value = '';
-    });
-
-    function createCard(situation) {
         const card = {
             username: username,
             situation: situation
         };
-        fetch('cards.json')
-            .then(response => response.json())
-            .then(cards => {
-                cards.push(card);
-                saveCards(cards);
-            });
-    }
+        const cards = JSON.parse(localStorage.getItem('cards')) || [];
+        cards.push(card);
+        saveCards(cards);
+        document.getElementById('situation').value = '';
+    });
 
-    function loadCards() {
-        fetch('cards.json')
-            .then(response => response.json())
-            .then(cards => {
-                cardList.innerHTML = '';
-                cards.forEach(card => {
-                    const li = document.createElement('li');
-                    li.textContent = `${card.username}: ${card.situation}`;
-                    cardList.appendChild(li);
-                });
-            });
-    }
-
-    function saveCards(cards) {
-        fetch('cards.json', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(cards)
-        }).then(() => loadCards());
-    }
+    // Cargar las tarjetas al inicio
+    loadCards();
 });
