@@ -1,1 +1,35 @@
-
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ponte en mis zapatos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Ponte en mis zapatos</h1>
+    </header>
+    <main>
+        <section id="register-section">
+            <h2>Registro</h2>
+            <form id="register-form">
+                <label for="username">Nombre de usuario:</label>
+                <input type="text" id="username" name="username" required>
+                <button type="submit">Registrar</button>
+            </form>
+        </section>
+        <section id="card-section" class="hidden">
+            <h2>Crear Tarjeta Emocional</h2>
+            <form id="card-form">
+                <label for="situation">Situación emocional:</label>
+                <textarea id="situation" name="situation" required></textarea>
+                <button type="submit">Crear Tarjeta</button>
+            </form>
+            <h3>Tarjetas creadas</h3>
+            <ul id="card-list"></ul>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
